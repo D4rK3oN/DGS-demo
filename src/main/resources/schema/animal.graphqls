@@ -1,0 +1,20 @@
+type Animal {
+    id: ID!
+    name: String
+    size: Float
+}
+
+input GetAnimalByIdInput {
+    id: ID!
+}
+
+input FindAnimalsInput {
+    name: String!
+    size: Float
+}
+
+type Query {
+    getAnimalById(getAnimalByIdInput: GetAnimalByIdInput!): Animal
+    findAnimals(findAnimalsInput: FindAnimalsInput!): [Animal]!
+    findAllAnimals: [Animal]!
+}
