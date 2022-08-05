@@ -2,6 +2,7 @@ type Animal {
     id: ID!
     name: String
     size: Float
+    sizeText: String
 }
 
 input GetAnimalByIdInput {

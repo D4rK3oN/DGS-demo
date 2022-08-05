@@ -22,7 +22,7 @@ class AnimalServiceInMemory : AnimalService {
     override fun findAnimals(name: String, size: Double?): Flux<Animal> =
         Flux.fromIterable(
             list.filter { animal: Animal -> (animal.name != null && animal.name.contains(name)) || animal.name == null }
-                .filter { animal: Animal -> if (size != null) animal.size == size else true }
+                .filter { animal: Animal -> size?.equals(animal.size) ?: true }
         )
 
     override fun findAllAnimals(): Flux<Animal> =

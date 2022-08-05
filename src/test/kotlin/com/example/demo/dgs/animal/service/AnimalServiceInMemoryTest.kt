@@ -1,8 +1,8 @@
 package com.example.demo.dgs.animal.service
 
-import com.netflix.dgs.codegen.generated.types.Animal
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
@@ -31,7 +31,10 @@ internal class AnimalServiceInMemoryTest {
 
         assertAll(
             { assertFalse { response.isEmpty } },
-            { assertEquals(Animal("05", "Misi", 3.0), response.get()) }
+            { assertEquals("05", response.get().id) },
+            { assertEquals("Misi", response.get().name) },
+            { assertEquals(3.0, response.get().size) },
+            { assertNull(response.get().sizeText) }
         )
     }
 }

@@ -64,7 +64,7 @@ internal class AnimalDataFetcherTest {
     @Test
     fun getById_whenIdExist_thenReturnAnimal() {
         Mockito.`when`(service.getById(anyString()))
-            .thenReturn(Mono.just(Animal("01", "Luna")))
+            .thenReturn(Mono.just(Animal("01", "Luna", 3.5)))
 
         val query: GetAnimalByIdGraphQLQuery = GetAnimalByIdGraphQLQuery.Builder()
             .getAnimalByIdInput(GetAnimalByIdInput(anyString()))
@@ -73,7 +73,7 @@ internal class AnimalDataFetcherTest {
         val projection: GetAnimalByIdProjectionRoot = GetAnimalByIdProjectionRoot()
             .id()
             .name()
-            .size()
+            .sizeText()
 
         val request = GraphQLQueryRequest(query, projection)
 
@@ -86,7 +86,9 @@ internal class AnimalDataFetcherTest {
 
         assertAll(
             { assertTrue(animal.isPresent) },
-            { assertEquals(Animal("01", "Luna"), animal.get()) }
+            { assertEquals("01", animal.get().id) },
+            { assertEquals("Luna", animal.get().name) },
+            { assertEquals("Mi peso es 3.5", animal.get().sizeText) }
         )
     }
 }
