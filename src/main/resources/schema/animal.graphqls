@@ -18,3 +18,12 @@ type Query {
     findAnimals(findAnimalsInput: FindAnimalsInput!): [Animal]!
     findAllAnimals: [Animal]!
 }
+
+input NewAnimalInput {
+    name: String!
+    size: Float
+}
+
+type Mutation {
+    addAnimal(newAnimalInput: NewAnimalInput!): Animal
+}

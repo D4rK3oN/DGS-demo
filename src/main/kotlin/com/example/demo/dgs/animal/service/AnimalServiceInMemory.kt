@@ -27,4 +27,7 @@ class AnimalServiceInMemory : AnimalService {
 
     override fun findAllAnimals(): Flux<Animal> =
         Flux.fromArray(list)
+
+    override fun addAnimal(name: String, size: Double?): Mono<Animal> =
+        Mono.just(Animal("00011562", name, size))
 }

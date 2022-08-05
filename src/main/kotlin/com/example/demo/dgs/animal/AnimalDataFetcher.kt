@@ -4,7 +4,9 @@ import com.example.demo.dgs.animal.service.AnimalServiceInMemory
 import com.netflix.dgs.codegen.generated.types.Animal
 import com.netflix.dgs.codegen.generated.types.FindAnimalsInput
 import com.netflix.dgs.codegen.generated.types.GetAnimalByIdInput
+import com.netflix.dgs.codegen.generated.types.NewAnimalInput
 import com.netflix.graphql.dgs.DgsComponent
+import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.DgsQuery
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -23,4 +25,8 @@ class AnimalDataFetcher(private val animalService: AnimalServiceInMemory) {
     @DgsQuery
     fun findAllAnimals(): Flux<Animal> =
         animalService.findAllAnimals()
+
+    @DgsMutation
+    fun addAnimal(newAnimalInput: NewAnimalInput): Mono<Animal> =
+        animalService.addAnimal(newAnimalInput.name, newAnimalInput.size)
 }
