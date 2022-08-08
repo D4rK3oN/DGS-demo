@@ -1,7 +1,8 @@
 package com.example.demo.dgs.animal
 
+import com.example.demo.dgs.animal.extension.sizeText
 import com.example.demo.dgs.animal.service.AnimalServiceInMemory
-import com.netflix.dgs.codegen.generated.DgsConstants
+import com.netflix.dgs.codegen.generated.DgsConstants.ANIMAL
 import com.netflix.dgs.codegen.generated.types.Animal
 import com.netflix.dgs.codegen.generated.types.FindAnimalsInput
 import com.netflix.dgs.codegen.generated.types.GetAnimalByIdInput
@@ -13,7 +14,7 @@ import com.netflix.graphql.dgs.DgsQuery
 import graphql.schema.DataFetchingEnvironment
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import java.util.Optional
+import reactor.core.publisher.toMono
 
 @DgsComponent
 class AnimalDataFetcher(private val animalService: AnimalServiceInMemory) {
@@ -34,14 +35,7 @@ class AnimalDataFetcher(private val animalService: AnimalServiceInMemory) {
     fun addAnimal(newAnimalInput: NewAnimalInput): Mono<Animal> =
         animalService.addAnimal(newAnimalInput.name, newAnimalInput.size)
 
-    @DgsData(parentType = DgsConstants.ANIMAL.TYPE_NAME, field = DgsConstants.ANIMAL.SizeText)
-    fun sizeText(dfe: DataFetchingEnvironment): Mono<String> {
-        val animal = dfe.getSource<Animal>()
-
-        return if (Optional.ofNullable(animal.size).isPresent) {
-            Mono.just("Mi peso es ${animal.size}")
-        } else {
-            Mono.just("Peso desconocido")
-        }
-    }
+    @DgsData(parentType = ANIMAL.TYPE_NAME, field = ANIMAL.SizeText)
+    fun sizeText(dfe: DataFetchingEnvironment): Mono<String> =
+        Animal.sizeText(dfe.getSource<Animal>().size).toMono()
 }
